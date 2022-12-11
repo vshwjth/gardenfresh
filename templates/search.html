@@ -1,0 +1,36 @@
+{%extends 'navbar.html'%}
+{% load static %}
+
+{% block content %}
+<div class="container mb-3">
+    <form method=GET action="{% url 'search'%}" class="form-control">
+      <input type="text" placeholder="Search.." name="q">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-search"></i></button>
+    </form>
+</div>
+
+{% if items.count == 0%}
+<h3><b>Uh-Oh! That returned nothing.</b></h3>
+<h5 style="color: gray">Please try a different search...</h5>
+{% else %}
+<h3><b>{{items.count }} results for "{{qss}}"</b></h3>
+<div class="row g-3 mt-3">
+    {%for i in items%}
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card">
+        <img src="{{i.itemImg.url}}" alt="{{i.itemName}}" class="card-img-top">
+        <div class="card-body">
+          <h5>{{i.itemName}}</h5>
+          <h6 style="color: gray">₹{{i.price}}</h6>
+          <button data-product="{{i.itemID}}" data-action="add" class="btn btn-success align-self-end update-cart">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{%endif%}
+<div class="container mt-3 mb-3">
+    <a href='/catalog' class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i> Back to all Products</a>
+</div>
+<button onclick="topFunction()" id="myBtn" title="Go to top">Go to Top</button>
+{% endblock %}
