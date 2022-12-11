@@ -1,0 +1,110 @@
+
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mb-3">
+    <form method=GET action="{% url 'search'%}" class="form-control">
+      <input type="text" placeholder="Search.." name="q">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-search"></i></button>
+    </form>
+</div>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">All Products</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Vegetables</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Fruits</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="kitchen-tab" data-bs-toggle="tab" data-bs-target="#kitchen" type="button" role="tab" aria-controls="kitchen" aria-selected="false">Kitchen</button>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="row g-3 mt-3">
+      {%for i in item_list%}
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card">
+          <img src="{{i.itemImg.url}}" alt="{{i.itemName}}" class="card-img-top">
+          <div class="card-body">
+            <h5>{{i.itemName}}</h5>
+            <h6 style="color: gray">₹{{i.price}}</h6>
+            <button
+              data-product="{{i.itemID}}"
+              data-action="add" 
+              class="btn btn-success align-self-end update-cart"
+              >Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="row g-3 mt-3">
+      {%for i in item_list%}
+      {% if i.itemCategory == 'V' %}
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card">
+            <img src="{{i.itemImg.url}}" alt="{{i.itemName}}" class="card-img-top">
+            <div class="card-body">
+              <h5>{{i.itemName}}</h5>
+              <h6 style="color: gray">₹{{i.price}}</h6>
+              <button data-product="{{i.itemID}}" data-action="add" class="btn btn-success align-self-end update-cart">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <div class="row g-3 mt-3">
+        {%for i in item_list%}
+        {% if i.itemCategory == 'F' %}
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="card">
+              <img src="{{i.itemImg.url}}" alt="{{i.itemName}}" class="card-img-top">
+              <div class="card-body">
+                <h5>{{i.itemName}}</h5>
+                <h6 style="color: gray">₹{{i.price}}</h6>
+                <button data-product="{{i.itemID}}" data-action="add" class="btn btn-success align-self-end update-cart">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+
+  <div class="tab-pane fade" id="kitchen" role="tabpanel" aria-labelledby="kitchen-tab">
+    <div class="row g-3 mt-3">
+      {%for i in item_list%}
+      {% if i.itemCategory == 'K' %}
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="card">
+              <img src="{{i.itemImg.url}}" alt="{{i.itemName}}" class="card-img-top">
+              <div class="card-body">
+                <h5>{{i.itemName}}</h5>
+                <h6 style="color: gray">₹{{i.price}}</h6>
+                <button data-product="{{i.itemID}}" data-action="add" class="btn btn-success align-self-end update-cart">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+<button onclick="topFunction()" id="myBtn" title="Go to top">Go to Top</button>
+{% endblock %}

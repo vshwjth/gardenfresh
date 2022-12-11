@@ -1,0 +1,110 @@
+{% extends 'navbar.html' %}
+{%load static%}
+{%block content%}
+<section class="h-100">
+    <div class="container h-100 py-5">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-10">
+  
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-normal mb-0 text-black"><b>Shopping Cart</b></h3>
+          </div>
+          
+          {%if items.count == 0%}
+          <div class="mb-5" style="text-align: center;">
+            <span class="fs-3 fw-bold">
+                Your cart is empty!
+            </span>
+            <br>
+            <span class="fs-6">
+              Go ahead, explore and add something.
+          </span>
+          </div>        
+          <div class="card">
+            <div class="card-body">
+              <a type="button" href='/catalog' class="btn btn-success btn-block btn-lg"><i class="fa-solid fa-arrow-left"></i> Back to Shopping</a>
+            </div>
+          </div>
+          {%else%}
+          {% for item in items%}
+          <div class="card rounded-3  mb-4">
+            <div class="card-body p-4">
+              <div class="row d-flex justify-content-between align-items-center" style="max-height: 150px;">
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                  <img
+                    src="{{item.product.itemImg.url}}"
+                    class="img-fluid rounded-3" alt="{{item.product.itemName}}"
+                    style="object-fit: cover">
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3">
+                  <p class="lead fw-normal mb-2"><b>{{item.product.itemName}}</b></p>
+                  <p><span class="text-muted">
+                    {% if item.product.itemCategory == 'V'%}
+                    Vegetables
+                    {%elif item.product.itemCategory == 'K'%}
+                    Kitchen
+                    {%else%}
+                    Fruits
+                    {%endif%}
+                  </span></p>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                  <button data-product="{{item.product.itemID}}" data-action="remove" class="btn btn-link px-2 update-cart">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <div class="card text-center" style="min-width:40px ;">{{item.quantity}}</div>
+  
+                  <button data-product="{{item.product.itemID}}" data-action="add" class="btn btn-link px-2 update-cart">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                  <h5 class="mb-0">₹{{item.product.price}} </h5>
+                  <p class="text-muted">x{{item.quantity}}</p>
+                  <h5><b>₹{% widthratio item.product.price 1 item.quantity %}</b></h5>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                  <button data-product="{{item.product.itemID}}" data-action="delete" class="btn text-danger update-cart"><i class="fas fa-trash fa-lg"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {%endfor%}
+
+          <div class="card mb-4">
+            <div class="card-body p-4 d-flex flex-row">
+              <div class="form-outline flex-fill">
+                <input type="text" id="form1" class="form-control form-control-lg" />
+                <label class="form-label" for="form1">Discount code</label>
+              </div>
+              <button type="button" class="btn btn-outline-success btn-lg ms-3">Apply</button>
+            </div>
+          </div>
+
+          <div class="card mb-4">
+            <div class="card-header d-flex">
+              <p>Total</p>
+              <span class="ms-auto text-muted">{{items.count}} items</span>
+            </div>
+            <div class="card-body">
+              <span class="ms-auto fs-3 fw-bold">₹{{order.get_total|floatformat:"2"}}</span>
+            </div>
+          </div>
+  
+          <div class="card">
+            <div class="card-body">
+              <a  href='/checkout' type="button" class="btn btn-success btn-block btn-lg">Proceed to Checkout</a>
+              <a type="button" href='/catalog' class="btn btn-outline-secondary btn-block btn-lg"><i class="fa-solid fa-arrow-left"></i> Back to Shopping</a>
+            </div>
+          </div>
+          {%endif%}
+          </div>
+        </div>
+      </div>
+    </section>
+<button onclick="topFunction()" id="myBtn" title="Go to top">Go to Top</button>
+{%endblock%}
+
+
+
+
